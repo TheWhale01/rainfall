@@ -11,6 +11,10 @@ dr-x--x--x  1 root   root      340 Sep 23  2015 ..
 -rw-r--r--  1 level0 level0    675 Apr  3  2012 .profile
 ```
 
+```
+scp -P 4242 level0@localhost:/home/user/level0/level0 ./
+```
+
 Apres avoir telecharge et passe dans Ghidra le binaire `level0` nous optenons plus ou moins ce code C:
 
 ```C
