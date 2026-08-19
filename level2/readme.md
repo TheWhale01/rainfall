@@ -1,6 +1,6 @@
 # level 3
 
-Dans cette partie nous avons egalement un binaire qui ressemble a quelque choses pres a celui de la partie 2:
+Dans cette partie nous avons egalement un binaire qui ressemble a quelque choses pres a celui du level 1:
 
 ```C
 #include <stdio.h>
