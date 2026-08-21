@@ -41,7 +41,7 @@ int main(void)
         /* Commande: "service" */
         if (strncmp(buf, "service", 7) == 0)
         {
-            service = strdup(buf + 7);               "service "         " "
+            service = strdup(buf + 7);
             // l'ancien service n'est pas free => fuite mémoire
         }
 
