@@ -36,7 +36,7 @@ void pp(char *buff)
 
 int main(void)
 {
-    char buff[30];
+    char buff[54];
 
     pp(buff);
     puts(buff);
