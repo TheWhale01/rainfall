@@ -35,9 +35,9 @@ void main(void)
 }
 ```
 
-gets n'etant pas protege nous pouvons reecrire l'adresse de retour de gets. Par defaut apres gets on return du main et donc on exit le programme. On a juste a ecraser l'adresse de retour du main par celle de run(). En decompilant le programme on obtient cette adresse de debut: `08048444`
+`gets()` n'etant pas protege nous pouvons reecrire l'adresse de retour de `main()`. Par defaut apres `gets()` on return du `main()` et donc on exit le programme. On a juste a ecraser l'adresse de retour du `main()` par celle de `run()`. En decompilant le programme on obtient cette adresse de debut: `08048444`
 
-Etant donne que nous sommes sur une architecture x86_64 l'addresse est interpretee de cette maniere par le CPU:
+Etant donne que nous sommes sur une architecture x86 l'addresse est interpretee de cette maniere par le CPU:
 
 ```
 \44 \84 \04 \08

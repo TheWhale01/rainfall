@@ -30,15 +30,15 @@ void main(void)
 }
 ```
 
-Dans ce cas, il faut que la valeur de `m` soit egale a 64 pour executer un shell. Nous allons donc utiliser printf pour modifier cette variable grace a `%n`. Ce flag nous permet d'ecrire le nombre de caracteres a une adresse donne.
+Dans ce cas, il faut que la valeur de `m` soit egale a 64 pour executer un shell. Nous allons donc utiliser `printf()` pour modifier cette variable grace a `%n`. Ce flag nous permet d'ecrire le nombre de caracteres dans une string a une adresse donne.
 Etant donne que `m` est une variable globale nous pouvons utiliser son adresse dans tout le programme. Avec `Ghidra` nous pouvons voir l'adresse de `m`: `0x0804988c`
-L'idee derriere ceci est de creer une string qui serait interpretee par printf pour ecrire 64 dans `m`:
+L'idee derriere ceci est de creer une string qui serait interpretee par `printf()` pour ecrire 64 dans `m`:
 
 ```bash
 python -c 'print "\x8c\x98\x04\x08" + "A" * 60 + "%4$n"'
 ```
 
-Nous placons l'adresse de `m` au debut de notre string puis nous ajoutons 60 `A` (total: 64). Ensuite nous disons a printf d'utiliser sont quatrieme argument comme argument de `%n`: `%4$n`. Nous pouvons verifier comme ceci que notre adresse est bien le 4eme argument de printf:
+Nous placons l'adresse de `m` au debut de notre string puis nous ajoutons 60 `A` (total: 64). Ensuite nous disons a `printf()` d'utiliser sont quatrieme argument comme argument de `%n`: `%4$n`. Nous pouvons verifier comme ceci que notre adresse est bien le 4eme argument de printf:
 
 ```bash
 python -c 'print "aaaa %x %x %x %x %x %x %x %x %x %x"'

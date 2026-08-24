@@ -26,7 +26,7 @@ int main(int ac, char **av)
 }
 ```
 
-Ici notre but est de reecrire la valeur dans `nb` grace a `memcpy()`. Pour ceci il nous faut faire un `integer overflow` pour avoir une valeur negative mais qui multipliee par 4 nous donnera un resultat superieur ou egal a 44 (40 + 4 octets pour ecraser `nb`).
+Ici notre but est de reecrire la valeur de `nb` grace a `memcpy()`. Pour ceci il nous faut faire un `integer overflow` pour avoir une valeur negative mais qui multipliee par 4 nous donnera un resultat superieur ou egal a 44 (40 + 4 octets pour ecraser `nb`).
 Pour cela nous pouvons utiliser notre programme C:
 
 ```bash

