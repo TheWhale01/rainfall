@@ -35,7 +35,7 @@ Dans ce programme nous avons un int sur 4-bit `(addr)` et un buffer de 76-bit `(
 
 Nous allons donc nous servir de l'allocation sur la heap de `strdup()` pour tromper cette verification et executer un shellcode.
 
-Le principe est qu'on stocke notre shellcode au debut de `buff` et l'adresse de retour dans `addr`. A cause du if nous ne pouvons pas pointer l'adresse de retour directement sur le debut de `buff` car alloue sur la stack. En utilisant `ltrace` nous pouvons voir que `strdup()` renvoie toujours la meme adresse sur la heap:
+Le principe est qu'on stocke notre shellcode au debut de `buff` et on reecrit l'adresse de retour de `p()`. A cause du if nous ne pouvons pas pointer l'adresse de retour directement sur le debut de `buff` car alloue sur la stack. En utilisant `ltrace` nous pouvons voir que `strdup()` renvoie toujours la meme adresse sur la heap:
 
 ```bash
 level2@RainFall:~$ ltrace ./level2
@@ -51,7 +51,7 @@ strdup("")                                                                    = 
 
 La ligne importante ici est: `strdup("")                                                                    = 0x0804a008`
 
-Nous allons donc ecraser l'adresse contenue par `addr` par l'adresse donnee par `ltrace`: `0x0804a008`. Il nous faut maintenant trouver un shellcode capable d'executer `/bin/sh` en tant que level3 (Cf. permissions)
+Nous allons donc ecraser l'adresse de retour de `p()` par l'adresse donnee par `ltrace`: `0x0804a008`. Il nous faut maintenant trouver un shellcode capable d'executer `/bin/sh` en tant que level3 (Cf. permissions)
 
 Ce qui nous donne ceci:
 

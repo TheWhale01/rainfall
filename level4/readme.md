@@ -34,7 +34,7 @@ void main(void)
 }
 ```
 
-Nous pouvons donc utiliser exactement la meme methode que l'exericse precedent a ceci pres que nous devons savoir quelle est la position de notre argument dans `printf()`:
+Nous pouvons donc utiliser exactement la meme methode que l'exercise precedent a ceci pres que nous devons savoir quelle est la position de notre argument dans `printf()`:
 
 ```bash
 python -c 'print "aaaa %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x"' | ./level4
