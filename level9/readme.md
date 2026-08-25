@@ -60,7 +60,7 @@ this = operator.new(0x6c); //0x6c == 108
 N::N(this,5);
 ```
 
-Donc nous savons que pour atteindre le `vptr` de `inst2` nous allons devoir overflow de 108. Ensuite en sachant que le `vptr` est un pointeur sur pointeur, on sait qu'il dereference 2 fois pour executer du code. Il va falloir donc donner dans notre payload une adresse qui pointe sur une adresse qui pointe sur notre shellcode. Nous pouvons nous servir de notre buffer pour ceci. Grace a gdb nous pouvons avoir l'adresse du contenu de notre buffer dans la heap:
+Donc nous savons que pour atteindre le `vptr` de `inst2` nous allons devoir overflow de 108. Ensuite en sachant que le `vptr` est un pointeur sur pointeur, on sait qu'il faut dereferencer 2 fois pour executer du code. Il va falloir donc donner dans notre payload une adresse qui pointe sur une adresse qui pointe sur notre shellcode. Nous pouvons nous servir de notre buffer pour ceci. Grace a gdb nous pouvons avoir l'adresse du contenu de notre buffer dans la heap:
 
 ```bash
 level9@RainFall:~$ gdb ./level9

