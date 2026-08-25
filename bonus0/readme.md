@@ -49,7 +49,7 @@ int main(void)
 }
 ```
 
-L'idee est de stocker un shellcode dans `dest` puis d'ecraser l'adresse de retour de `pp()` grace a `strcat()`. Pour cela il nous faut l'offset a partir duquel ecrire notre adresse de retour et l'adresse du debut de notre shellcode.
+L'idee est de stocker un shellcode dans `dest` puis d'ecraser l'adresse de retour de `main()` grace a `strcat()`. Pour cela il nous faut l'offset a partir duquel ecrire notre adresse de retour et l'adresse du debut de notre shellcode.
 
 ```bash
 bonus0@RainFall:~$ gdb ./bonus0
